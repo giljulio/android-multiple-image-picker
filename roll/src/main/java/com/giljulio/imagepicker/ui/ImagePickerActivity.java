@@ -1,35 +1,34 @@
-package com.giljulio.imagepicker;
+package com.giljulio.imagepicker.ui;
 
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.io.File;
+import com.giljulio.imagepicker.R;
+import com.giljulio.imagepicker.model.Image;
+
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
-public class MainActivity extends Activity implements ActionBar.TabListener, SelectedImageMap.Callback {
+public class ImagePickerActivity extends Activity implements ActionBar.TabListener {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = ImagePickerActivity.class.getSimpleName();
 
-    private static final int RESULT_DONE = 40000, RESULT_CANCEL = 40001;
-
-    public SelectedImageMap mSelectedImageMap;
+    public Set<Image> mSelectedImages;
     private LinearLayout mSelectedImagesContainer;
     private FrameLayout mFrameLayout;
     private TextView mSelectedImageEmptyMessage;
@@ -45,10 +44,13 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Sel
 
         setContentView(R.layout.activity_main);
 
+        mSelectedImages = new HashSet<Image>();
+        mSelectedImagesContainer = (LinearLayout) findViewById(R.id.selected_photos_container);
+
+
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
 
@@ -85,32 +87,27 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Sel
         }
 
         mFrameLayout = (FrameLayout) findViewById(R.id.selected_photos_container_frame);
-        mSelectedImagesContainer = (LinearLayout) findViewById(R.id.selected_photos_container);
-        mSelectedImageMap = new SelectedImageMap(this);
 
     }
 
 
-    @Override
     public void onAdd(Image image) {
-        View rootView = LayoutInflater.from(MainActivity.this).inflate(R.layout.listitem_thumbnail, null);
-        SmarterImageView thumbnail = (SmarterImageView)rootView.findViewById(R.id.selected_photo);
+        View rootView = LayoutInflater.from(ImagePickerActivity.this).inflate(R.layout.listitem_thumbnail, null);
+        CustomImageView thumbnail = (CustomImageView)rootView.findViewById(R.id.selected_photo);
         rootView.setTag(image.mUri);
-        thumbnail.setImageFile(new File(image.mUri.toString()), image.mOrientation,
-                android.R.color.transparent, android.R.color.darker_gray);
+        thumbnail.setImageURI(image.mUri);
         mSelectedImagesContainer.addView(rootView, 0);
 
         int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60,
                 getResources().getDisplayMetrics());
         thumbnail.setLayoutParams(new FrameLayout.LayoutParams(px, px));
 
-        if(mSelectedImageMap.size() == 1){
+        if(mSelectedImages.size() == 1){
             mSelectedImagesContainer.setVisibility(View.VISIBLE);
             mSelectedImageEmptyMessage.setVisibility(View.GONE);
         }
     }
 
-    @Override
     public void onRemove(Image image) {
         for(int i = 0; i < mSelectedImagesContainer.getChildCount(); i++){
             View childView = mSelectedImagesContainer.getChildAt(i);
@@ -120,7 +117,7 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Sel
             }
         }
 
-        if(mSelectedImageMap.size() == 0){
+        if(mSelectedImages.size() == 0){
             mSelectedImagesContainer.setVisibility(View.GONE);
             mSelectedImageEmptyMessage.setVisibility(View.VISIBLE);
         }
@@ -174,9 +171,9 @@ public class MainActivity extends Activity implements ActionBar.TabListener, Sel
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch(position){
                 case 0:
-                    return new PhotoFragment();
+                    return new CameraFragment();
                 case 1:
-                    return new ThumbnailFragment();
+                    return new GalleryFragment();
                 default:
                     return null;
             }

@@ -1,4 +1,4 @@
-package com.giljulio.imagepicker;
+package com.giljulio.imagepicker.ui;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -14,27 +14,30 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
+import com.giljulio.imagepicker.R;
+import com.giljulio.imagepicker.model.Image;
+
 import java.io.File;
 
 /**
  * Created by Gil on 04/03/2014.
  */
-public class ThumbnailFragment extends Fragment {
+public class GalleryFragment extends Fragment {
 
-    private static final String TAG = ThumbnailFragment.class.getSimpleName();
+    private static final String TAG = GalleryFragment.class.getSimpleName();
 
     GridView mGalleryGridView;
     ImageGalleryAdapter mGalleryAdapter;
-
+    ImagePickerActivity mActivity;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_thumbnail, container, false);
 
         Log.d(TAG, "onCreateView");
         mGalleryAdapter = new ImageGalleryAdapter(getActivity());
         mGalleryGridView = (GridView)rootView.findViewById(R.id.gallery_grid);
+        mActivity = ((ImagePickerActivity)getActivity());
 
 
         final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID, MediaStore.Images.ImageColumns.ORIENTATION };
@@ -53,15 +56,15 @@ public class ThumbnailFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Image image = mGalleryAdapter.getItem(i);
-                image.mSelected = !image.mSelected;
-                if(image.mSelected){
-                    ((MainActivity)getActivity()).mSelectedImageMap.put(image.mUri, image);
-                    view.setBackgroundResource(android.R.color.holo_blue_light);
-                    view.setPadding(15, 15, 15, 15);
+                boolean isSelected = mActivity.mSelectedImages.contains(image);
+                if(isSelected){
+                    mActivity.mSelectedImages.remove(image);
                 } else {
-                    ((MainActivity)getActivity()).mSelectedImageMap.remove(image.mUri);
-                    view.setPadding(0, 0, 0, 0);
+                    mActivity.mSelectedImages.add(image);
                 }
+
+                //refresh the view to
+                mGalleryAdapter.getView(i, view, adapterView);
             }
         });
 
@@ -69,7 +72,7 @@ public class ThumbnailFragment extends Fragment {
     }
 
     class ViewHolder {
-        SmarterImageView mThumbnail;
+        CustomImageView mThumbnail;
     }
 
     public class ImageGalleryAdapter extends ArrayAdapter<Image> {
@@ -84,7 +87,7 @@ public class ThumbnailFragment extends Fragment {
             if(convertView == null){
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.gridview_thumbnail, null);
                 holder = new ViewHolder();
-                holder.mThumbnail = (SmarterImageView)convertView.findViewById(R.id.thumbnail_image);
+                holder.mThumbnail = (CustomImageView)convertView.findViewById(R.id.thumbnail_image);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder)convertView.getTag();
@@ -92,16 +95,16 @@ public class ThumbnailFragment extends Fragment {
 
 
             Image image = getItem(position);
+            boolean isSelected = mActivity.mSelectedImages.contains(image);
 
-
-            if(image.mSelected){
+            if(isSelected){
                 convertView.setBackgroundResource(android.R.color.holo_blue_light);
                 convertView.setPadding(15, 15, 15, 15);
             } else {
                 convertView.setPadding(0, 0, 0, 0);
             }
 
-            holder.mThumbnail.setImageFile(new File(image.mUri.toString()), image.mOrientation, android.R.color.transparent, android.R.color.darker_gray);
+            holder.mThumbnail.setImageURI(image.mUri);
 
 
             return convertView;

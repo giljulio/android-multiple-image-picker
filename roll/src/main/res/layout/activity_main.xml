@@ -8,7 +8,7 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.giljulio.imagepicker.MainActivity"
+        tools:context="com.giljulio.imagepicker.ui.ImagePickerActivity"
         android:layout_above="@+id/selected_photos_container_frame" />
 
 

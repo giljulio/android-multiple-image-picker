@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.giljulio.imagepicker.MainActivity" >
+    tools:context="com.giljulio.imagepicker.ui.ImagePickerActivity" >
     
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"

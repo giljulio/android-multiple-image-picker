@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.giljulio.imagepicker.MainActivity" >
+            android:name="com.giljulio.imagepicker.ui.ImagePickerActivity" >
         </activity>
     </application>
 

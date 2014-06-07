@@ -1,4 +1,4 @@
-package com.giljulio.imagepicker;
+package com.giljulio.imagepicker.model;
 
 import android.net.Uri;
 
@@ -9,17 +9,10 @@ public class Image {
 
     public Uri mUri;
     public int mOrientation;
-    public boolean mSelected;
 
     public Image(Uri uri, int orientation){
         mUri = uri;
         mOrientation = orientation;
-    }
-
-    public Image(Uri uri, int orientation, boolean selected){
-        mUri = uri;
-        mOrientation = orientation;
-        mSelected = selected;
     }
 
 }

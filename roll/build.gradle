@@ -19,5 +19,4 @@ android {
 dependencies {
     compile 'com.android.support:support-v13:+'
     compile 'com.android.support:support-v13:18.0.+'
-    compile files('libs/android-smart-image-view-1.0.0 (3).jar')
 }

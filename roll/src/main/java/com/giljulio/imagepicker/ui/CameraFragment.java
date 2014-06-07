@@ -1,4 +1,4 @@
-package com.giljulio.imagepicker;
+package com.giljulio.imagepicker.ui;
 
 import android.app.Fragment;
 import android.database.Cursor;
@@ -17,13 +17,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.giljulio.imagepicker.R;
+import com.giljulio.imagepicker.model.Image;
+
 import java.io.IOException;
 
 
-public class PhotoFragment extends Fragment implements SurfaceHolder.Callback,
+public class CameraFragment extends Fragment implements SurfaceHolder.Callback,
         Camera.ShutterCallback, Camera.PictureCallback {
 
-    private static final String TAG = PhotoFragment.class.getSimpleName();
+    private static final String TAG = CameraFragment.class.getSimpleName();
 
     Camera mCamera;
     SurfaceView mSurfaceView;
@@ -48,7 +51,7 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback,
             public void onClick(View view) {
                 if(mTakePictureBtn.isEnabled()){
                     mTakePictureBtn.setEnabled(false);
-                    mCamera.takePicture(PhotoFragment.this, null, PhotoFragment.this);
+                    mCamera.takePicture(CameraFragment.this, null, CameraFragment.this);
                 }
             }
         });
@@ -117,7 +120,7 @@ public class PhotoFragment extends Fragment implements SurfaceHolder.Callback,
         String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), picture, "" , "");
         Uri contentUri = Uri.parse(path);
         Image image = getImageFromContentUri(contentUri);
-        ((MainActivity)getActivity()).mSelectedImageMap.put(image.mUri, image);
+        ((ImagePickerActivity)getActivity()).mSelectedImages.add(image);
     }
 
 
