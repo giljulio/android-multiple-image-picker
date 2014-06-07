@@ -19,7 +19,9 @@ import android.widget.TextView;
 
 import com.giljulio.imagepicker.R;
 import com.giljulio.imagepicker.model.Image;
+import com.giljulio.imagepicker.utils.ImageInternalFetcher;
 
+import java.nio.InvalidMarkException;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -28,13 +30,14 @@ public class ImagePickerActivity extends Activity implements ActionBar.TabListen
 
     private static final String TAG = ImagePickerActivity.class.getSimpleName();
 
-    public Set<Image> mSelectedImages;
+    private Set<Image> mSelectedImages;
     private LinearLayout mSelectedImagesContainer;
     private FrameLayout mFrameLayout;
     private TextView mSelectedImageEmptyMessage;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    public ImageInternalFetcher mImageFetcher;
 
 
     @Override
@@ -47,6 +50,7 @@ public class ImagePickerActivity extends Activity implements ActionBar.TabListen
         mSelectedImages = new HashSet<Image>();
         mSelectedImagesContainer = (LinearLayout) findViewById(R.id.selected_photos_container);
 
+        mImageFetcher = new ImageInternalFetcher(this, 700);
 
         // Set up the action bar.
         final ActionBar actionBar = getActionBar();
@@ -91,36 +95,48 @@ public class ImagePickerActivity extends Activity implements ActionBar.TabListen
     }
 
 
-    public void onAdd(Image image) {
-        View rootView = LayoutInflater.from(ImagePickerActivity.this).inflate(R.layout.listitem_thumbnail, null);
-        CustomImageView thumbnail = (CustomImageView)rootView.findViewById(R.id.selected_photo);
-        rootView.setTag(image.mUri);
-        thumbnail.setImageURI(image.mUri);
-        mSelectedImagesContainer.addView(rootView, 0);
+    public boolean addImage(Image image) {
+        if(mSelectedImages.add(image)){
+            View rootView = LayoutInflater.from(ImagePickerActivity.this).inflate(R.layout.listitem_thumbnail, null);
+            CustomImageView thumbnail = (CustomImageView)rootView.findViewById(R.id.selected_photo);
+            rootView.setTag(image.mUri);
+            mImageFetcher.loadImage(image.mUri, thumbnail);
+            mSelectedImagesContainer.addView(rootView, 0);
 
-        int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60,
-                getResources().getDisplayMetrics());
-        thumbnail.setLayoutParams(new FrameLayout.LayoutParams(px, px));
+            int px = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60,
+                    getResources().getDisplayMetrics());
+            thumbnail.setLayoutParams(new FrameLayout.LayoutParams(px, px));
 
-        if(mSelectedImages.size() == 1){
-            mSelectedImagesContainer.setVisibility(View.VISIBLE);
-            mSelectedImageEmptyMessage.setVisibility(View.GONE);
+            if(mSelectedImages.size() == 1){
+                mSelectedImagesContainer.setVisibility(View.VISIBLE);
+                mSelectedImageEmptyMessage.setVisibility(View.GONE);
+            }
+            return true;
         }
+        return false;
     }
 
-    public void onRemove(Image image) {
-        for(int i = 0; i < mSelectedImagesContainer.getChildCount(); i++){
-            View childView = mSelectedImagesContainer.getChildAt(i);
-            if(childView.getTag().equals(image.mUri)){
-                mSelectedImagesContainer.removeViewAt(i);
-                break;
+    public boolean removeImage(Image image) {
+        if(mSelectedImages.remove(image)){
+            for(int i = 0; i < mSelectedImagesContainer.getChildCount(); i++){
+                View childView = mSelectedImagesContainer.getChildAt(i);
+                if(childView.getTag().equals(image.mUri)){
+                    mSelectedImagesContainer.removeViewAt(i);
+                    break;
+                }
             }
-        }
 
-        if(mSelectedImages.size() == 0){
-            mSelectedImagesContainer.setVisibility(View.GONE);
-            mSelectedImageEmptyMessage.setVisibility(View.VISIBLE);
+            if(mSelectedImages.size() == 0){
+                mSelectedImagesContainer.setVisibility(View.GONE);
+                mSelectedImageEmptyMessage.setVisibility(View.VISIBLE);
+            }
+            return true;
         }
+        return false;
+    }
+
+    public boolean containsImage(Image image){
+        return mSelectedImages.contains(image);
     }
 
     @Override

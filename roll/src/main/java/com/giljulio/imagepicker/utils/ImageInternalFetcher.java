@@ -1,10 +1,8 @@
-package com.giljulio.imagepicker.util;
+package com.giljulio.imagepicker.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
-
-import java.io.IOException;
 
 /**
  * Created by Gil on 07/06/2014.
@@ -30,7 +28,7 @@ public class ImageInternalFetcher extends ImageResizer {
 
 
     protected Bitmap processBitmap(Uri uri){
-        return decodeSampledBitmapFromUri(mContext, uri, mImageWidth, mImageHeight, getImageCache());
+        return decodeSampledBitmapFromFile(uri.getPath(), mImageWidth, mImageHeight, getImageCache());
     }
 
     @Override

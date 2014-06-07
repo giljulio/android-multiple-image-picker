@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.giljulio.imagepicker.util;
+package com.giljulio.imagepicker.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -180,7 +180,6 @@ public class ImageResizer extends ImageWorker {
     public static Bitmap decodeSampledBitmapFromUri(Context context, Uri fileuri, int reqWidth, int reqHeight, ImageCache cache) {
 
         Bitmap bm = null;
-
         try{
             // First decode with inJustDecodeBounds=true to check dimensions
             final BitmapFactory.Options options = new BitmapFactory.Options();

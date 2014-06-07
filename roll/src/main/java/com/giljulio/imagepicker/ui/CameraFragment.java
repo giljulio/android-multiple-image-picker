@@ -120,7 +120,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback,
         String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), picture, "" , "");
         Uri contentUri = Uri.parse(path);
         Image image = getImageFromContentUri(contentUri);
-        ((ImagePickerActivity)getActivity()).mSelectedImages.add(image);
+        ((ImagePickerActivity)getActivity()).addImage(image);
     }
 
 

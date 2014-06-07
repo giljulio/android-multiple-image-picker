@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/gallery_grid"
         android:layout_gravity="center"
-        android:numColumns="auto_fit"
+        android:numColumns="3"
         android:horizontalSpacing="0.5dp"
         android:verticalSpacing="0.5dp"/>
 </FrameLayout>

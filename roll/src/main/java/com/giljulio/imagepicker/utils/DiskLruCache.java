@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.giljulio.imagepicker.util;
+package com.giljulio.imagepicker.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;

@@ -21,16 +21,12 @@ public class CustomImageView extends ImageView {
 
     public CustomImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        TypedArray a = context.getTheme().obtainStyledAttributes(
-                attrs,
-                R.styleable.CustomImageView,
-                0, 0);
-
         try {
+            TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomImageView, 0, 0);
             mMatchHeightToWidth = a.getBoolean(R.styleable.CustomImageView_matchHeightToWidth, false);
-        } finally {
             a.recycle();
+        } catch (NullPointerException e){
+            e.printStackTrace();
         }
     }
 

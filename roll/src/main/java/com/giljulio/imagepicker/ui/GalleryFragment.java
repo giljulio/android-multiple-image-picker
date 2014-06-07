@@ -56,11 +56,8 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Image image = mGalleryAdapter.getItem(i);
-                boolean isSelected = mActivity.mSelectedImages.contains(image);
-                if(isSelected){
-                    mActivity.mSelectedImages.remove(image);
-                } else {
-                    mActivity.mSelectedImages.add(image);
+                if(!mActivity.addImage(image)){
+                    mActivity.removeImage(image);
                 }
 
                 //refresh the view to
@@ -95,7 +92,7 @@ public class GalleryFragment extends Fragment {
 
 
             Image image = getItem(position);
-            boolean isSelected = mActivity.mSelectedImages.contains(image);
+            boolean isSelected = mActivity.containsImage(image);
 
             if(isSelected){
                 convertView.setBackgroundResource(android.R.color.holo_blue_light);
@@ -104,7 +101,7 @@ public class GalleryFragment extends Fragment {
                 convertView.setPadding(0, 0, 0, 0);
             }
 
-            holder.mThumbnail.setImageURI(image.mUri);
+            mActivity.mImageFetcher.loadImage(image.mUri, holder.mThumbnail);
 
 
             return convertView;

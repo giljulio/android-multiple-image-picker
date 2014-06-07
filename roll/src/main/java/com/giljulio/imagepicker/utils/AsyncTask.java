@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.giljulio.imagepicker.util;
+package com.giljulio.imagepicker.utils;
 
 import android.annotation.TargetApi;
 import android.os.Handler;
