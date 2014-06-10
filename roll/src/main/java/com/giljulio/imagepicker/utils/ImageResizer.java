@@ -180,6 +180,7 @@ public class ImageResizer extends ImageWorker {
     public static Bitmap decodeSampledBitmapFromUri(Context context, Uri fileuri, int reqWidth, int reqHeight, ImageCache cache) {
 
         Bitmap bm = null;
+
         try{
             // First decode with inJustDecodeBounds=true to check dimensions
             final BitmapFactory.Options options = new BitmapFactory.Options();

@@ -19,8 +19,8 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_gravity="center_horizontal|bottom"
-        android:src="@drawable/photo_btn"
-        android:scaleType="fitXY"
+        android:src="@drawable/photo_btn1"
+        android:scaleType="fitCenter"
         android:background="@android:color/transparent"
         android:layout_margin="18dp" />
 

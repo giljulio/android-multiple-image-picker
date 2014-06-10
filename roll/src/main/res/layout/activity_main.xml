@@ -2,83 +2,89 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    tools:context="com.giljulio.imagepicker.ui.ImagePickerActivity"
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.giljulio.imagepicker.ui.ImagePickerActivity"
-        android:layout_above="@+id/selected_photos_container_frame" />
-
-
-    <FrameLayout
-        android:id="@+id/selected_photos_container_frame"
-        android:layout_width="match_parent"
-        android:layout_height="61dp"
-        android:layout_above="@+id/button_bar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="false">
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:foregroundGravity="left"
-            android:paddingTop="1dp"
-            android:paddingBottom="1dp"
-            android:fillViewport="false">
-
-            <LinearLayout
-                android:id="@+id/selected_photos_container"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:animateLayoutChanges="true"
-                android:visibility="gone"
-                android:gravity="left"
-                android:layout_alignParentStart="true">
-
-            </LinearLayout>
-        </HorizontalScrollView>
-
-        <TextView
-            android:id="@+id/selected_photos_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="No images selected"
-            android:layout_gravity="center" />
-
-    </FrameLayout>
-
-
+        android:layout_above="@+id/action_btn_contianer" />
 
 
     <LinearLayout
-        style="?android:buttonBarStyle"
+        android:id="@+id/action_btn_contianer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/button_bar">
-        <Button
-            style="?android:buttonBarButtonStyle"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel"/>
+        android:divider="?android:dividerHorizontal"
+        android:showDividers="middle"
+        android:dividerPadding="8dp"
+        android:orientation="vertical">
+        <FrameLayout
+            android:id="@+id/selected_photos_container_frame"
+            android:layout_width="match_parent"
+            android:layout_height="61dp">
 
-        <Button
-            style="?android:buttonBarButtonStyle"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/done"/>
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foregroundGravity="left"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:fillViewport="false">
+
+                <LinearLayout
+                    android:id="@+id/selected_photos_container"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:animateLayoutChanges="true"
+                    android:visibility="gone"
+                    android:gravity="left"
+                    android:layout_alignParentStart="true">
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/selected_photos_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="No images selected"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
+
+
+
+
+        <LinearLayout
+            android:id="@+id/button_bar"
+            style="?android:buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/action_btn_cancel"
+                style="?android:buttonBarButtonStyle"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"/>
+
+            <Button
+                android:id="@+id/action_btn_done"
+                style="?android:buttonBarButtonStyle"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/done"/>
+        </LinearLayout>
     </LinearLayout>
-
 
 
 </RelativeLayout>

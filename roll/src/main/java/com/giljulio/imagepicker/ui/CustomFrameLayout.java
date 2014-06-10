@@ -3,24 +3,24 @@ package com.giljulio.imagepicker.ui;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 
 import com.giljulio.imagepicker.R;
 
 /**
- * Created by Gil on 05/03/2014.
+ * Created by Gil on 09/06/2014.
  */
-public class CustomImageView extends ImageView {
+public class CustomFrameLayout extends FrameLayout {
 
     private static final String TAG = CustomImageView.class.getSimpleName();
     private static boolean mMatchHeightToWidth;
     private static boolean mMatchWidthToHeight;
 
-    public CustomImageView(Context context) {
+    public CustomFrameLayout(Context context) {
         super(context);
     }
 
-    public CustomImageView(Context context, AttributeSet attrs) {
+    public CustomFrameLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         TypedArray a = context.getTheme().obtainStyledAttributes(
@@ -41,13 +41,11 @@ public class CustomImageView extends ImageView {
     //Squares the thumbnail
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec){
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         if(mMatchHeightToWidth){
             setMeasuredDimension(widthMeasureSpec, widthMeasureSpec);
         } else if(mMatchWidthToHeight){
             setMeasuredDimension(heightMeasureSpec, heightMeasureSpec);
-        } else {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
     }
-
 }

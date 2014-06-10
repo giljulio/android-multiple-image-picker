@@ -4,13 +4,15 @@
     android:layout_height="match_parent"
     tools:context="com.giljulio.imagepicker.ui.CameraFragment">
 
-
     <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/gallery_grid"
         android:layout_gravity="center"
         android:numColumns="3"
         android:horizontalSpacing="0.5dp"
-        android:verticalSpacing="0.5dp"/>
+        android:verticalSpacing="0.5dp"
+        android:drawSelectorOnTop="true"
+        android:listSelector="?android:attr/selectableItemBackground"/>
+
 </FrameLayout>

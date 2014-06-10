@@ -6,8 +6,12 @@ Recently I got frustrated opening an intent to select multiple photos and also w
 
 ##Usage
 
-private static final RESULT_CODE_PICKER_IMAGES = 2674;
+```java
+private static final RESULT_CODE_PICKER_IMAGES = 9000;
 
 Intent intent = new Intent(this, SmartImagePicker.class);
 startActivityForResult(intent, RESULT_CODE_PICKER_IMAGES);
 
+
+
+```

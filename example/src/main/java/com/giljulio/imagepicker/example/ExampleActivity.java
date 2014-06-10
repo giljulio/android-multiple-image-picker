@@ -3,17 +3,25 @@ package com.giljulio.imagepicker.example;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.giljulio.imagepicker.ui.ImagePickerActivity;
 
 public class ExampleActivity extends Activity {
+
+    private static final String TAG = ExampleActivity.class.getSimpleName();
+
+    private static final int RESULT_IMAGE_PICKER = 9000;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,9 @@ public class ExampleActivity extends Activity {
      */
     public static class PlaceholderFragment extends Fragment {
 
+        private TextView mActivityResultsTextView;
+
+
         public PlaceholderFragment() {
         }
 
@@ -61,17 +72,39 @@ public class ExampleActivity extends Activity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_example, container, false);
 
+            mActivityResultsTextView = (TextView) rootView.findViewById(R.id.result);
             Button button = (Button)rootView.findViewById(R.id.pick_images);
             button.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), ImagePickerActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, RESULT_IMAGE_PICKER);
                 }
             });
             return rootView;
         }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            Log.d(TAG, "RequestCode: " + requestCode + "  ResultCode: " + resultCode);
+            switch (requestCode){
+                case RESULT_IMAGE_PICKER:
+                    if(resultCode == Activity.RESULT_OK){
+                        String[] stringUris = data.getStringArrayExtra(ImagePickerActivity.TAG_IMAGE_URI);
+                        String msg = "";
+                        for(String str : stringUris)
+                            msg += " " + str;
+                        mActivityResultsTextView.setText("Result: " + msg);
+                    }
+                    break;
+
+                default:
+                    super.onActivityResult(requestCode, resultCode, data);
+                    break;
+            }
+        }
     }
+
 
 }

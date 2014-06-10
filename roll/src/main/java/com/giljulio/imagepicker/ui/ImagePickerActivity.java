@@ -5,6 +5,8 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,14 +25,15 @@ import com.giljulio.imagepicker.R;
 import com.giljulio.imagepicker.model.Image;
 import com.giljulio.imagepicker.utils.ImageInternalFetcher;
 
-import java.nio.InvalidMarkException;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-public class ImagePickerActivity extends Activity implements ActionBar.TabListener {
+public class ImagePickerActivity extends Activity implements ActionBar.TabListener, View.OnClickListener {
 
     private static final String TAG = ImagePickerActivity.class.getSimpleName();
+
+    public static final String TAG_IMAGE_URI = "TAG_IMAGE_URI";
 
     private Set<Image> mSelectedImages;
     private LinearLayout mSelectedImagesContainer;
@@ -39,6 +44,7 @@ public class ImagePickerActivity extends Activity implements ActionBar.TabListen
     private ViewPager mViewPager;
     public ImageInternalFetcher mImageFetcher;
 
+    private Button mCancelButtonView, mDoneButtonView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,30 +53,35 @@ public class ImagePickerActivity extends Activity implements ActionBar.TabListen
 
         setContentView(R.layout.activity_main);
 
-        mSelectedImages = new HashSet<Image>();
         mSelectedImagesContainer = (LinearLayout) findViewById(R.id.selected_photos_container);
+        mSelectedImageEmptyMessage = (TextView)findViewById(R.id.selected_photos_empty);
+        mFrameLayout = (FrameLayout) findViewById(R.id.selected_photos_container_frame);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mCancelButtonView = (Button) findViewById(R.id.action_btn_cancel);
+        mDoneButtonView = (Button) findViewById(R.id.action_btn_done);
 
-        mImageFetcher = new ImageInternalFetcher(this, 700);
+        mSelectedImages = new HashSet<Image>();
+        mImageFetcher = new ImageInternalFetcher(this, 500);
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        // Set up the action bar.
+        mCancelButtonView.setOnClickListener(this);
+        mDoneButtonView.setOnClickListener(this);
+
+        setupActionBar();
+
+
+    }
+
+    /**
+     * Sets up the action bar, adding view page indicator
+     */
+    private void setupActionBar(){
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setDisplayShowHomeEnabled(false);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        mSelectedImageEmptyMessage = (TextView)findViewById(R.id.selected_photos_empty);
-
-
-        // When swiping between different sections, select the corresponding
-        // tab. We can also use ActionBar.Tab#select() to do this if we have
-        // a reference to the Tab.
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -78,27 +89,16 @@ public class ImagePickerActivity extends Activity implements ActionBar.TabListen
             }
         });
 
-        // For each of the sections in the app, add a tab to the action bar.
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
+            actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
         }
-
-        mFrameLayout = (FrameLayout) findViewById(R.id.selected_photos_container_frame);
-
     }
 
 
     public boolean addImage(Image image) {
         if(mSelectedImages.add(image)){
-            View rootView = LayoutInflater.from(ImagePickerActivity.this).inflate(R.layout.listitem_thumbnail, null);
-            CustomImageView thumbnail = (CustomImageView)rootView.findViewById(R.id.selected_photo);
+            View rootView = LayoutInflater.from(ImagePickerActivity.this).inflate(R.layout.list_item_selected_thumbnail, null);
+            ImageView thumbnail = (ImageView)rootView.findViewById(R.id.selected_photo);
             rootView.setTag(image.mUri);
             mImageFetcher.loadImage(image.mUri, thumbnail);
             mSelectedImagesContainer.addView(rootView, 0);
@@ -141,7 +141,7 @@ public class ImagePickerActivity extends Activity implements ActionBar.TabListen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -172,6 +172,25 @@ public class ImagePickerActivity extends Activity implements ActionBar.TabListen
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        //cannot use switch statement since ADT 14 -.-
+        if(view.getId() == R.id.action_btn_done){
+
+            String[] uris = new String[mSelectedImages.size()];
+            int i = 0;
+            for(Image img : mSelectedImages)
+                uris[i++] = img.mUri.getPath();
+
+            Intent intent = new Intent();
+            intent.putExtra(TAG_IMAGE_URI, uris);
+            setResult(Activity.RESULT_OK, intent);
+        } else if(view.getId() == R.id.action_btn_cancel){
+            setResult(Activity.RESULT_CANCELED);
+        }
+        finish();
     }
 
 
