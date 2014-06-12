@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="Gradle: ComAndroidSupportAppcompatV71901.aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/roll/build/exploded-bundles/ComAndroidSupportAppcompatV71901.aar/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/picker/build/exploded-bundles/ComAndroidSupportAppcompatV71901.aar/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -70,7 +70,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 19 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="roll" exported="" />
+    <orderEntry type="module" module-name="picker" exported="" />
     <orderEntry type="library" exported="" name="support-v13-19.0.1" level="project" />
     <orderEntry type="library" exported="" name="android-smart-image-view-1.0.0 (3)" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.0.1" level="project" />

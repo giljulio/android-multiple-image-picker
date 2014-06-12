@@ -1,1 +1,1 @@
-include ':roll', ':example', ':example'
+include ':example', ':example', 'picker'
