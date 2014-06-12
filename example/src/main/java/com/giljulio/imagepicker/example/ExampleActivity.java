@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -91,11 +92,11 @@ public class ExampleActivity extends Activity {
             switch (requestCode){
                 case RESULT_IMAGE_PICKER:
                     if(resultCode == Activity.RESULT_OK){
-                        String[] stringUris = data.getStringArrayExtra(ImagePickerActivity.TAG_IMAGE_URI);
-                        String msg = "";
-                        for(String str : stringUris)
-                            msg += " " + str;
-                        mActivityResultsTextView.setText("Result: " + msg);
+                        Parcelable[] parcelableUris = data.getParcelableArrayExtra(ImagePickerActivity.TAG_IMAGE_URI);
+                        Uri[] uris = new Uri[parcelableUris.length];
+                        System.arraycopy(parcelableUris, 0, uris, 0, parcelableUris.length);
+                        for(Uri uri : uris)
+                            mActivityResultsTextView.setText( mActivityResultsTextView.getText() + " " + uri.getPath());
                     }
                     break;
 

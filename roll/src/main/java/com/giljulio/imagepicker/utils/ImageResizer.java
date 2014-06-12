@@ -181,7 +181,7 @@ public class ImageResizer extends ImageWorker {
 
         Bitmap bm = null;
 
-        try{
+        try {
             // First decode with inJustDecodeBounds=true to check dimensions
             final BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;

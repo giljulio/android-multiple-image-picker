@@ -179,10 +179,10 @@ public class ImagePickerActivity extends Activity implements ActionBar.TabListen
         //cannot use switch statement since ADT 14 -.-
         if(view.getId() == R.id.action_btn_done){
 
-            String[] uris = new String[mSelectedImages.size()];
+            Uri[] uris = new Uri[mSelectedImages.size()];
             int i = 0;
             for(Image img : mSelectedImages)
-                uris[i++] = img.mUri.getPath();
+                uris[i++] = img.mUri;
 
             Intent intent = new Intent();
             intent.putExtra(TAG_IMAGE_URI, uris);
