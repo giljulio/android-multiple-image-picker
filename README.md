@@ -37,4 +37,4 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 ##Result
 
-<img src="https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot1.png" width="200px" /><img src="https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot2.png" width="200px" /><img src="https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot3.png" width="200px" />
+<img src="https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot1.png" width="200px" style="margin: 5px;" /><img src="https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot2.png" width="200px" style="margin: 5px;" /><img src="https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot3.png" width="200px" style="margin: 5px;" />
