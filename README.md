@@ -37,8 +37,8 @@ public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 ##Result
 
-![alt Camera](https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot1.png)
+<img src="https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot1.png" style="width: 200px" />
 
-![alt Camera - Multiple photos](https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot2.png)
+<img src="https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot2.png" style="width: 200px" />
 
-![alt Gallery](https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot3.png)
+<img src="https://raw.githubusercontent.com/giljulio/ImagePicker/master/example/src/main/res/drawable/screenshot3.png" style="width: 200px" />
