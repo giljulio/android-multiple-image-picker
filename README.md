@@ -1,3 +1,6 @@
+#DEPRECATED
+android-multiple-image-picker is deprecated. No more development will be taking place. Most file managers and gallaries now support ```Intent.EXTRA_ALLOW_MULTIPLE``` Thanks for all your support!
+
 #Mutiple Image Picker
 
 Recently I got frustrated opening an intent to select multiple photos and also with a camera. Therefore I to make it myself and so other people don't have to reinvent the wheel here it is.
